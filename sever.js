@@ -1,17 +1,21 @@
-// Import Express framework
 const express = require('express');
+const db = require('./database');
+const swaggerDocs = require('./utils/swagger');
+const cors = require('cors');
 
-// Create an instance of Express
+const route = require('./routes');
+
 const app = express();
-const port = 3000; // Port number, you can choose any available port
 
-// Define your routes and middleware here
-// For example:
-app.get('/', (req, res) => {
-  res.send('Hello Worlds!');
-});
+app.use(express.json());
+app.use(cors()); 
+app.use(express.urlencoded({ extended: true }));
 
-// Start the server
+route(app);
+
+swaggerDocs(app);
+
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server đang lắng nghe trên cổng ${port}`);
 });
