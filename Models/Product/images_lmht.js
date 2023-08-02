@@ -7,7 +7,7 @@ const ImagesLMHT = sequelize.define('images_lmht', {
     primaryKey: true,
     autoIncrement: true,
   },
-  id_account: {
+  id_accgame: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },

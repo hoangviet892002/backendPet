@@ -31,6 +31,10 @@ const Hiepsi = sequelize.define('Hiepsi', {
     type: DataTypes.STRING(100),
     allowNull: false,
   },
+  phai:{
+    type: DataTypes.STRING(100),
+    allowNull: false,
+  },
   status: {
     type: DataTypes.INTEGER, // Thêm trường status là kiểu số nguyên
     allowNull: false,
@@ -44,7 +48,7 @@ const Hiepsi = sequelize.define('Hiepsi', {
     allowNull: false,
   },
 }, {
-  tableName: 'Hiepsi',
+  tableName: 'HSO',
 });
 
 module.exports = Hiepsi;

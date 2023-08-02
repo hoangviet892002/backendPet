@@ -52,7 +52,7 @@ const Lienminh = sequelize.define('Lienminh', {
     allowNull: false,
   },
 }, {
-  tableName: 'Lienminh',
+  tableName: 'LMHT',
 });
 
 module.exports = Lienminh;

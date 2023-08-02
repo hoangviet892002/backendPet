@@ -25,59 +25,59 @@ class NgocrongController {
           message: 'Vui lòng điền id_account.',
         });
       }
-      
+
       if (!amount) {
         return res.status(200).json({
           success: false,
           message: 'Vui lòng điền amount.',
         });
       }
-      
+
       if (!username) {
         return res.status(200).json({
           success: false,
           message: 'Vui lòng điền username.',
         });
       }
-      
+
       if (!password) {
         return res.status(200).json({
           success: false,
           message: 'Vui lòng điền password.',
         });
       }
-      
-      
+
+
       if (!content) {
         return res.status(200).json({
           success: false,
           message: 'Vui lòng điền content.',
         });
       }
-      
+
       if (!sever) {
         return res.status(200).json({
           success: false,
           message: 'Vui lòng điền sever.',
         });
       }
-      
+
       if (!hanh_tinh) {
         return res.status(200).json({
           success: false,
           message: 'Vui lòng điền hanh_tinh.',
         });
       }
-      
-      
-      
+
+
+
       if (!suc_manh) {
         return res.status(200).json({
           success: false,
           message: 'Vui lòng điền suc_manh.',
         });
       }
-      
+
       if (!images) {
         return res.status(200).json({
           success: false,
@@ -85,7 +85,7 @@ class NgocrongController {
         });
       }
       const dataImages = images.split(' , ');
-      
+
 
       // Tạo mới bản ghi trong bảng Ngocrong
       const newNgocrong = await Ngocrong.create({
@@ -99,7 +99,7 @@ class NgocrongController {
         bong_tai,
         de_tu,
         suc_manh,
-        status:1
+        status: 1
       });
 
       // Truyền id của Ngocrong mới tạo vào images_nro và tạo bản ghi mới trong bảng ImagesNro
