@@ -6,6 +6,7 @@ const OrderRouter = require ('./Shopacc/Order');
 const Transaction_momoRouter = require ('./Shopacc/Transaction_momo');
 const TransactionRouter = require ('./Shopacc/Transaction');
 const AccountRouter = require ('./Users/Account');
+const AuthRouter = require ('./authRouters');
 
 function route(app) {
     app.use('/api/hiepsi', HiepsiRouter);
@@ -21,6 +22,8 @@ function route(app) {
     app.use('/api/transaction', TransactionRouter);
 
     app.use('/api/account', AccountRouter);
+
+    app.use('/api/auth', AuthRouter);
     
     
 } 

@@ -1,17 +1,34 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../database'); // Import kết nối cơ sở dữ liệu Sequelize của bạn
+const sequelize = require('../../database');
 
-const Order = sequelize.define('Order', {
+const Order = sequelize.define('ORDER', {
   id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
-  
-  
+  id_account: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  id_accgame: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  role_accgame: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
 }, {
-  tableName: '',
+  tableName: 'ORDER', // Specify the table name explicitly
 });
 
 module.exports = Order;

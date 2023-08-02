@@ -1,17 +1,38 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../database'); // Import kết nối cơ sở dữ liệu Sequelize của bạn
+const sequelize = require('../../database');
 
-const Transaction_momo = sequelize.define('Transaction_momo', {
+const TransactionMomo = sequelize.define('TRANSACTION_MOMO', {
   id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
-  
-  
+  id_account: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  phone_account: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  amount: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  comment: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
 }, {
-  tableName: '',
+  tableName: 'TRANSACTION_MOMO', // Specify the table name explicitly
 });
 
-module.exports = Transaction_momo;
+module.exports = TransactionMomo;
