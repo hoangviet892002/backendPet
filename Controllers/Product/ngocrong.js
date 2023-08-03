@@ -125,6 +125,71 @@ class NgocrongController {
       });
     }
   }
+  async getAll(req, res) {
+    try {
+      // Lấy danh sách sản phẩm Ngocrong từ cơ sở dữ liệu
+      const ngocrongProducts = await Ngocrong.findAll();
+
+      // Trả về kết quả thành công cùng với danh sách sản phẩm Ngocrong
+      return res.status(200).json({
+        success: true,
+        message: 'Thành công',
+        ngocrongs: ngocrongProducts,
+      });
+    } catch (error) {
+      console.error('Error getting Ngocrong products:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+      });
+    }
+  }
+  async delete(req, res) {
+    try {
+      const { id } = req.params;
+
+      // Kiểm tra xem id có tồn tại trong bảng Ngocrong hay không
+      const existingNgocrong = await Ngocrong.findByPk(id);
+      if (!existingNgocrong) {
+        return res.status(404).json({
+          success: false,
+          message: 'Không tìm thấy sản phẩm Ngocrong với id đã cho.',
+        });
+      }
+      if (existingNgocrong.status === 2){
+        return res.status(200).json({
+            success: false,
+            message: 'Sản phẩm đã bán',
+          });
+      }
+
+      // Xóa bản ghi trong bảng ImagesNro liên quan đến sản phẩm Ngocrong
+      await ImagesNro.destroy({
+        where: {
+          id_accgame: id,
+        },
+      });
+
+      // Xóa bản ghi trong bảng Ngocrong
+      await Ngocrong.destroy({
+        where: {
+          id: id,
+        },
+      });
+
+      // Trả về kết quả thành công
+      return res.status(200).json({
+        success: true,
+        message: 'Xóa sản phẩm Ngocrong thành công.',
+      });
+    } catch (error) {
+      console.error('Error deleting Ngocrong product:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+      });
+    }
+  }
 }
 
 module.exports = new NgocrongController();
