@@ -47,6 +47,10 @@ const Hiepsi = sequelize.define('Hiepsi', {
     type: DataTypes.DATE,
     allowNull: false,
   },
+  de_tu: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
 }, {
   tableName: 'HSO',
 });

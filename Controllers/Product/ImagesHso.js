@@ -1,6 +1,6 @@
-const ImagesLMHT = require('../../Models/Product/images_lmht');
+const ImagesHso = require('../../Models/Product/images_hso');
 
-class ImagesLMHTController{
+class ImagesHsoController{
     async getImagesByAccgameId(req, res) {
         try {
             const { id } = req.params;
@@ -14,7 +14,7 @@ class ImagesLMHTController{
             }
 
             // Lấy danh sách các ảnh của tài khoản Ngocrong với id_accgame đã cho từ cơ sở dữ liệu
-            const images = await ImagesLMHT.findAll({
+            const images = await ImagesHso.findAll({
                 where: {
                     id_accgame: id,
                 },
@@ -47,7 +47,7 @@ class ImagesLMHTController{
             }
 
             // Xóa ảnh từ cơ sở dữ liệu dựa trên imageId
-            const deletedImage = await ImagesLMHT.destroy({
+            const deletedImage = await ImagesHso.destroy({
                 where: {
                     id: imageId,
                 },
@@ -87,7 +87,7 @@ class ImagesLMHTController{
           }
     
           // Create a new image record in the database
-          const newImage = await ImagesLMHT.create({
+          const newImage = await ImagesHso.create({
             id_accgame: id_accgame,
             dataImage: imageUrl,
           });
@@ -107,4 +107,4 @@ class ImagesLMHTController{
       }
 }
 
-module.exports = new ImagesLMHTController();
+module.exports = new ImagesHsoController();

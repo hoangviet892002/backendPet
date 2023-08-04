@@ -144,6 +144,30 @@ class NgocrongController {
       });
     }
   }
+  async getAllBySeller(req, res) {
+    try {
+      const { id } = req.params;
+      // Lấy danh sách sản phẩm Ngocrong từ cơ sở dữ liệu
+      const ngocrongProducts = await Ngocrong.findAll({
+        where: {
+          id_account: id,
+        },
+      });
+
+      // Trả về kết quả thành công cùng với danh sách sản phẩm Ngocrong
+      return res.status(200).json({
+        success: true,
+        message: 'Thành công',
+        ngocrongs: ngocrongProducts,
+      });
+    } catch (error) {
+      console.error('Error getting Ngocrong products:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+      });
+    }
+  }
   async delete(req, res) {
     try {
       const { id } = req.params;
@@ -156,11 +180,11 @@ class NgocrongController {
           message: 'Không tìm thấy sản phẩm Ngocrong với id đã cho.',
         });
       }
-      if (existingNgocrong.status === 2){
+      if (existingNgocrong.status === 2) {
         return res.status(200).json({
-            success: false,
-            message: 'Sản phẩm đã bán',
-          });
+          success: false,
+          message: 'Sản phẩm đã bán',
+        });
       }
 
       // Xóa bản ghi trong bảng ImagesNro liên quan đến sản phẩm Ngocrong
@@ -190,6 +214,79 @@ class NgocrongController {
       });
     }
   }
+  async getAccountInfo(req, res) {
+    try {
+      const { id } = req.params;
+
+      // Kiểm tra xem id_account có bị trống không
+      if (!id) {
+        return res.status(200).json({
+          success: false,
+          message: 'Vui lòng cung cấp id_account.',
+        });
+      }
+
+      // Lấy thông tin tài khoản Ngocrong từ cơ sở dữ liệu
+      const ngocrongAccount = await Ngocrong.findByPk(id);
+
+      if (!ngocrongAccount) {
+        return res.status(404).json({
+          success: false,
+          message: 'Không tìm thấy tài khoản Ngocrong với id đã cho.',
+        });
+      }
+
+      // Trả về kết quả thành công cùng với thông tin tài khoản Ngocrong
+      return res.status(200).json({
+        success: true,
+        message: 'Thành công',
+        accountInfo: ngocrongAccount,
+      });
+    } catch (error) {
+      console.error('Error getting Ngocrong account info:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+      });
+    }
+  }
+  async updateNgocrong(req, res) {
+    try {
+      const { id, username, password, content, sever, hanh_tinh, bong_tai, de_tu, suc_manh, status } = req.body;
+
+      // Check if the provided ID exists in the Ngocrong table
+      const existingNgocrong = await Ngocrong.findByPk(id);
+      if (!existingNgocrong) {
+        return res.status(404).json({ success: false, message: 'Không tìm thấy tài khoản Ngocrong!' });
+      }
+      if (existingNgocrong.status === 2) {
+        return res.status(200).json({ success: false, message: 'Sản phẩm đã bán' });
+      }
+      
+
+      // Update the Ngocrong record with the provided data
+      await Ngocrong.update(
+        {
+          username,
+          password,
+          content,
+          sever,
+          hanh_tinh,
+          bong_tai,
+          de_tu,
+          suc_manh,
+          status,
+        },
+        { where: { id: id } }
+      );
+
+      return res.status(200).json({ success: true, message: 'Cập nhật thành công!' });
+    } catch (error) {
+      console.error('Error:', error);
+      return res.status(500).json({ success: false, message: 'Cập nhật thất bại!' });
+    }
+  };
+
 }
 
 module.exports = new NgocrongController();
