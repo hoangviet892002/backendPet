@@ -34,6 +34,39 @@ class ImagesLMHTController{
             });
         }
     }
+    async getImageByAccgameId(req, res) {
+        try {
+            const { id } = req.params;
+
+            // Kiểm tra xem id_accgame có bị trống không
+            if (!id) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Vui lòng cung cấp id_accgame.',
+                });
+            }
+
+            // Lấy danh sách các ảnh của tài khoản Ngocrong với id_accgame đã cho từ cơ sở dữ liệu
+            const images = await ImagesLMHT.findOne({
+                where: {
+                    id_accgame: id,
+                },
+            });
+
+            // Trả về kết quả thành công cùng với danh sách ảnh
+            return res.status(200).json({
+                success: true,
+                message: 'Thành công',
+                images: images,
+            });
+        } catch (error) {
+            console.error('Error getting images by accgame id:', error);
+            return res.status(500).json({
+                success: false,
+                message: 'Internal server error',
+            });
+        }
+    }
     async deleteImageById(req, res) {
         try {
             const { imageId } = req.params;

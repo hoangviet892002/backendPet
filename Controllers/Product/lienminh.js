@@ -103,7 +103,11 @@ class LienminhController {
     async getAll(req, res) {
         try {
             // Lấy danh sách sản phẩm LMHT từ cơ sở dữ liệu
-            const lienminhProducts = await Lienminh.findAll();
+            const lienminhProducts = await Lienminh.findAll({
+                where: {
+                  status: '1',
+                },
+              });
 
             // Trả về kết quả thành công cùng với danh sách sản phẩm LMHT
             return res.status(200).json({

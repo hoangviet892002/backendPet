@@ -128,7 +128,11 @@ class NgocrongController {
   async getAll(req, res) {
     try {
       // Lấy danh sách sản phẩm Ngocrong từ cơ sở dữ liệu
-      const ngocrongProducts = await Ngocrong.findAll();
+      const ngocrongProducts = await Ngocrong.findAll({
+        where: {
+          status: '1',
+        },
+      });
 
       // Trả về kết quả thành công cùng với danh sách sản phẩm Ngocrong
       return res.status(200).json({

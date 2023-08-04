@@ -106,7 +106,11 @@ class HiepsiController {
     async getAll(req, res) {
         try {
           // Lấy danh sách sản phẩm Hiepsi từ cơ sở dữ liệu
-          const hiepsiProducts = await Hiepsi.findAll();
+          const hiepsiProducts = await Hiepsi.findAll({
+            where: {
+              status: '1',
+            },
+          });
     
           // Trả về kết quả thành công cùng với danh sách sản phẩm Hiepsi
           return res.status(200).json({
