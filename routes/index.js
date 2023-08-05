@@ -5,7 +5,7 @@ const NgocrongRouter = require ('./Product/ngocrong');
 const IMGNgocrongRouter = require ('./Product/images_nro');
 const IMGLienMinhRouter = require ('./Product/images_lmht');
 const IMGHiepsiRouter = require ('./Product/images_hso');
-const OrderRouter = require ('./Shopacc/Order');
+const OrderRouter = require ('./Shopacc/Order_accgame');
 const Transaction_momoRouter = require ('./Shopacc/Transaction_momo');
 const TransactionRouter = require ('./Shopacc/Transaction');
 const AccountRouter = require ('./Users/Account');
@@ -24,7 +24,7 @@ function route(app) {
 
     app.use('/api/imagesngocrong', IMGNgocrongRouter);
 
-    app.use('/api/order', OrderRouter);
+    app.use('/api/orderaccgame', OrderRouter);
 
     app.use('/api/transactionmomo', Transaction_momoRouter);
 

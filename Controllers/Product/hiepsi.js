@@ -1,6 +1,9 @@
 const Hiepsi = require('../../Models/Product/hiepsi');
 const ImagesHSO = require('../../Models/Product/images_hso');
-
+const { Sequelize } = require('sequelize');
+const Order = require('../../Models/Shopacc/Order_accgame');
+const Account = require('../../Models/Users/Account');
+const TransactionController = require('../Shopacc/Transaction');
 class HiepsiController {
     async create(req, res) {
         try {
@@ -265,6 +268,117 @@ class HiepsiController {
           return res.status(500).json({ success: false, message: 'Cập nhật thất bại!' });
         }
       }
+      async getRelatedProducts (req, res) {
+        try {
+          const { id } = req.params; // Assuming you pass the current product's ID in the request params
+      
+          // Fetch the current product details to get its server and planet attributes
+          const currentProduct = await Hiepsi.findByPk(id);
+      
+          if (!currentProduct) {
+            return res.status(404).json({ error: 'Product not found' });
+          }
+      
+          const limit = 4; // Set the maximum number of related products to fetch
+      
+          // Query for related products with the same server and planet as the current product
+          const relatedProducts = await Hiepsi.findAll({
+            where: {
+              id: { [Sequelize.Op.ne]: id }, // Exclude the current product from the results
+              phai: currentProduct.phai,
+              sever: currentProduct.sever,
+              status: 1,
+            },
+            limit,
+          });
+      
+          return res.json({ hiepsis: relatedProducts });
+        } catch (error) {
+          console.error('Error fetching related products:', error);
+          return res.status(500).json({ error: 'Internal server error' });
+        }
+      };
+      async getOne(req, res) {
+        try {
+          const { id } = req.params;
+          // Lấy danh sách sản phẩm Ngocrong từ cơ sở dữ liệu
+          const lienminhProducts = await Hiepsi.findOne({
+            where: {
+              id: id,
+            },
+          });
+    
+          // Trả về kết quả thành công cùng với danh sách sản phẩm Ngocrong
+          return res.status(200).json({
+            success: true,
+            message: 'Thành công',
+            hiepsi: lienminhProducts,
+          });
+        } catch (error) {
+          console.error('Error getting lien minh products:', error);
+          return res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+          });
+        }
+      }
+      async buy (req, res) {
+        try {
+          const { id } = req.body; // Assuming you pass the current product's ID in the request params
+          const { accountId } = req.body;
+      
+          // Fetch the current product details to get its server and planet attributes
+          const ngocrongProducts = await Hiepsi.findOne({
+            where: {
+              id: accountId,
+            },
+          });
+          
+      
+          if (!ngocrongProducts) {
+            return res.status(404).json({ error: 'Product not found' });
+          }
+          const account = await Account.findOne({
+            where: {
+              id: id,
+            },
+          });
+          if (!account) {
+            return res.status(200).json({success :false, message: 'Bạn chưa đăng nhập' });
+          }
+          if (account.balance< ngocrongProducts.amount) {
+            return res.status(200).json({ success :false, message: 'Bạn không đủ tiền' });
+          }
+          if (ngocrongProducts.status === 2) {
+            return res.status(200).json({success :false, message: 'Sản phẩm đã được bán' });
+          }
+          ngocrongProducts.status =2;
+          account.balance = account.balance - ngocrongProducts.amount;
+          await Order.create ({
+            id_account: account.id,
+            content: 'Hiệp sĩ',
+            username: ngocrongProducts.username,
+            password: ngocrongProducts.password
+          });
+          await ngocrongProducts.save();
+          await account.save();
+          const transactionData = {
+            id_account: account.id,
+            amount: -ngocrongProducts.amount,
+            comment: 'Mua acc', // Ghi chú cho giao dịch (bạn có thể tùy chỉnh nếu cần)
+            balance: account.balance,
+        };
+        await TransactionController.create(transactionData);
+    
+      
+          
+      
+          return res.json({success:true, message: 'success' });
+        } catch (error) {
+          console.error('Error fetching related products:', error);
+          return res.status(500).json({ error: 'Internal server error' });
+        }
+      };
 }
 
 module.exports = new HiepsiController();

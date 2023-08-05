@@ -1,22 +1,13 @@
-const Transaction = require('../../Models/Shopacc/Transaction');
+const Order = require('../../Models/Shopacc/Order_accgame');
 
-class TransactionController {
-    async create(transactionData) {
-        try {
-          // Tạo giao dịch mới trong cơ sở dữ liệu bằng cách sử dụng phương thức create của Transaction
-          const createdTransaction = await Transaction.create(transactionData);
-          return { success: true, message: 'Transaction created successfully', transaction: createdTransaction };
-        } catch (error) {
-          console.error('Error creating transaction:', error);
-          return { success: false, message: 'An error occurred while creating transaction' };
-        }
-      }
-      async TransactionByIdAccount(req, res) {
+class OrderController {
+
+    async getAccGameByIdAccount(req, res) {
         try {
             const { id_account } = req.params;
 
             // Thực hiện truy vấn database để lấy danh sách các acc game theo id_account
-            const accGames = await Transaction.findAll({
+            const accGames = await Order.findAll({
                 where: {
                     id_account: id_account,
                 },
@@ -35,7 +26,6 @@ class TransactionController {
         }
     }
 
-    
 }
 
-module.exports = new TransactionController();
+module.exports = new OrderController();

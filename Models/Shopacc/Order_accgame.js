@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../database');
 
-const Order = sequelize.define('ORDER', {
+const Order = sequelize.define('ORDER_ACCGAME', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -11,14 +11,20 @@ const Order = sequelize.define('ORDER', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  id_accgame: {
-    type: DataTypes.INTEGER,
+  username: {
+    type: DataTypes.STRING(100),
     allowNull: false,
   },
-  role_accgame: {
-    type: DataTypes.INTEGER,
+  password: {
+    type: DataTypes.STRING(100),
     allowNull: false,
   },
+  content: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+  },
+  
+  
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
@@ -28,7 +34,7 @@ const Order = sequelize.define('ORDER', {
     allowNull: false,
   },
 }, {
-  tableName: 'ORDER', // Specify the table name explicitly
+  tableName: 'order_accgame', // Specify the table name explicitly
 });
 
 module.exports = Order;
