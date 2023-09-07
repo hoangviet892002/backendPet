@@ -1,9 +1,10 @@
 module.exports = {
     database: {
-        host: 'us-cdbr-east-06.cleardb.net',
+        host: '45.252.249.36',
         dialect: 'mysql',
-        database: 'heroku_e0506cf423a383e',
-        username: 'befd38523afc6e',
-        password: 'd59d1077'
-    },  
+        database: 'rxfkuzba_training_q7',
+        username: 'rxfkuzba_training_q7',
+        password: 'PHry^&7SKUB2H3@nRLqc'
+    },
+      
 }
